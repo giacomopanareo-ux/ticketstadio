@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>TicketStadio — Partita</title><link rel="stylesheet" href="css/style.css"></head><body>
+<nav class="navbar"><a class="navbar-brand" href="/index.html">Ticket<span>Stadio</span></a><div class="navbar-links"><a href="/index.html">Partite</a><a href="/abbonamenti.html">Abbonamenti</a><a href="/miei-biglietti.html">I miei biglietti</a></div><div id="nav-admin"><a href="/admin/dashboard.html">Admin</a></div><div id="nav-user"><span id="nav-email" style="color:#9ca3af;font-size:.85rem"></span><button class="btn btn-outline btn-sm" style="color:#9ca3af;border-color:#374151" onclick="logout()">Esci</button></div><div id="nav-auth"><a href="/login.html" class="btn btn-outline btn-sm" style="color:#9ca3af;border-color:#374151">Accedi</a><a href="/register.html" class="btn btn-primary btn-sm">Registrati</a></div></nav>
+<main class="container" style="padding-top:2rem;padding-bottom:3rem">
+<p style="font-size:.85rem;color:rgba(255,255,255,.78);margin-bottom:1.25rem;text-shadow:0 1px 2px rgba(0,0,0,.4)"><a href="/index.html" style="color:var(--green-light);font-weight:600">Partite</a> &rsaquo; <span id="breadcrumb">Caricamento…</span></p>
+<div id="partita-header"><div class="loader-wrap"><div class="loader"></div></div></div>
+<div style="display:grid;grid-template-columns:1fr 340px;gap:1.75rem;margin-top:1.75rem" id="main-grid">
+<div>
+<h2 style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:1rem">1. Scegli il settore</h2>
+<div id="settori-container"><div class="loader-wrap"><div class="loader"></div></div></div>
+<div id="posti-section" style="display:none;margin-top:1.75rem">
+<h2 style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:.75rem">2. Scegli il posto</h2>
+<p style="font-size:.82rem;color:#6b7280;margin-bottom:.75rem">
+<span style="display:inline-block;width:12px;height:12px;background:#fff;border:1.5px solid #e5e7eb;border-radius:3px;vertical-align:middle;margin-right:4px"></span>Libero &nbsp;
+<span style="display:inline-block;width:12px;height:12px;background:#1a7a4a;border-radius:3px;vertical-align:middle;margin-right:4px"></span>Selezionato &nbsp;
+<span style="display:inline-block;width:12px;height:12px;background:#f3f4f6;border:1.5px solid #e5e7eb;border-radius:3px;vertical-align:middle;margin-right:4px"></span>Occupato</p>
+<div id="posti-container" class="posti-grid"></div>
+</div>
+</div>
+<div><div class="card" style="position:sticky;top:76px"><div class="card-body">
+<h3 style="font-weight:700;margin-bottom:1rem">Riepilogo acquisto</h3>
+<div id="rie-placeholder" style="color:#9ca3af;font-size:.875rem;text-align:center;padding:1rem 0">Seleziona settore e posto per procedere.</div>
+<div id="rie-content" style="display:none">
+<div class="riepilogo">
+<div class="riepilogo-row"><span>Settore</span><span id="r-settore">—</span></div>
+<div class="riepilogo-row"><span>Posto</span><span id="r-posto">—</span></div>
+<div class="riepilogo-row"><span>Prezzo base</span><span id="r-prezzo">—</span></div>
+<div class="riepilogo-row sconto" id="r-sconto-row" style="display:none"><span>Sconto</span><span id="r-sconto">—</span></div>
+<div class="riepilogo-row total"><span>Totale</span><span id="r-totale">—</span></div>
+</div>
+<div class="form-group" style="margin-top:1rem"><label class="form-label">Codice promo</label><div style="display:flex;gap:.5rem"><input type="text" id="codice-promo" class="form-control" placeholder="es. WELCOME10" style="text-transform:uppercase;flex:1"><button class="btn btn-outline btn-sm" onclick="applicaPromo()">Applica</button></div><p id="promo-msg" class="form-hint" style="display:none"></p></div>
+<div class="form-group"><label class="form-label">Metodo di pagamento</label><select id="metodo-pagamento" class="form-control"><option value="CARTA">Carta di credito</option><option value="PAYPAL">PayPal</option><option value="BONIFICO">Bonifico</option></select></div>
+<button class="btn btn-primary btn-full" id="btn-acquista" onclick="acquista()">Acquista biglietto</button>
+</div></div></div></div>
+</div>
+</main>
+<script src="js/api.js"></script><script src="js/auth.js"></script><script src="js/utils.js"></script>
+<script>
+const params=new URLSearchParams(window.location.search),partitaId=params.get('id');
+let partita=null,settori=[],postiOccupati=new Set(),selSettore=null,selPosto=null,sconto=0;
+document.addEventListener('DOMContentLoaded',async()=>{updateNavbar();if(!partitaId){window.location.href='/index.html';return;}await Promise.all([loadPartita(),loadSettori()]);await loadOccupati();});
+async function loadPartita(){try{partita=await PartiteAPI.getById(partitaId);document.getElementById('breadcrumb').textContent=partita.squadraCasaNome+' vs '+partita.squadraOspiteNome;document.title='TicketStadio — '+partita.squadraCasaNome+' vs '+partita.squadraOspiteNome;document.getElementById('partita-header').innerHTML='<div class="card"><div class="card-body" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap"><div style="flex:1"><div style="font-family:Barlow Condensed,sans-serif;font-size:1.7rem;font-weight:700">'+partita.squadraCasaNome+' <span style="color:#9ca3af;font-weight:400;font-size:1.2rem">vs</span> '+partita.squadraOspiteNome+'</div><div style="font-size:.875rem;color:#6b7280;margin-top:.35rem">'+formatDate(partita.dataOra)+' · ore '+formatTime(partita.dataOra)+' · '+partita.stadioNome+'</div></div><div>'+statoPartitaBadge(partita.stato)+'</div></div></div>';}catch{showError('partita-header','Partita non trovata.');}}
+function settoreSlot(nome){const n=(nome||'').toLowerCase();if(n.includes('curva nord'))return'nord';if(n.includes('curva sud'))return'sud';if(n.includes('tribuna ovest')||n.includes('ovest'))return'ovest';if(n.includes('tribuna est')||n.includes('est'))return'est';if(n.includes('vip'))return'vip';return'unmapped';}
+async function loadSettori(){try{settori=await SettoriAPI.getAll();const btns=settori.map(s=>'<button class="sector settore-btn sector-'+settoreSlot(s.nome)+'" id="set-'+s.id+'" onclick="selectSettore('+s.id+')"><div class="sector-name">'+s.nome+'</div><div class="sector-info">'+s.capienza+' posti · '+formatPrice(s.prezzoBase)+'</div></button>').join('');document.getElementById('settori-container').innerHTML='<div class="stadium-map">'+btns+'<div class="pitch"><span>CAMPO</span></div></div>';}catch{showError('settori-container','Impossibile caricare i settori.');}}
+async function loadOccupati(){try{const o=await PartiteAPI.getPosti(partitaId);postiOccupati=new Set(Array.isArray(o)?o:Object.values(o));}catch{}}
+async function selectSettore(id){selSettore=settori.find(s=>s.id===id);selPosto=null;sconto=0;document.querySelectorAll('.settore-btn').forEach(b=>b.classList.remove('selected'));document.getElementById('set-'+id).classList.add('selected');document.getElementById('posti-section').style.display='block';document.getElementById('posti-container').innerHTML='<div class="loader-wrap"><div class="loader"></div></div>';updateRie();try{const posti=await SettoriAPI.getPosti(id);document.getElementById('posti-container').innerHTML=posti.map(p=>{const occ=postiOccupati.has(p.id);return'<button class="posto-btn '+(occ?'occupato':'libero')+'" id="pos-'+p.id+'" '+(occ?'disabled':'onclick="selectPosto('+p.id+",'"+p.fila+"',"+p.numero+')"')+'>'+p.fila+p.numero+'</button>';}).join('');}catch{document.getElementById('posti-container').innerHTML='<p style="color:var(--red)">Impossibile caricare i posti.</p>';}}
+function selectPosto(id,fila,numero){selPosto={id,fila,numero};sconto=0;document.getElementById('codice-promo').value='';document.getElementById('promo-msg').style.display='none';document.getElementById('r-sconto-row').style.display='none';document.querySelectorAll('.posto-btn.libero,.posto-btn.selezionato').forEach(b=>b.classList.remove('selezionato'));document.getElementById('pos-'+id).classList.add('selezionato');updateRie();}
+function updateRie(){const ph=document.getElementById('rie-placeholder'),co=document.getElementById('rie-content');if(!selSettore||!selPosto){ph.style.display='block';co.style.display='none';return;}ph.style.display='none';co.style.display='block';const pb=parseFloat(selSettore.prezzoBase),tot=pb*(1-sconto/100);document.getElementById('r-settore').textContent=selSettore.nome;document.getElementById('r-posto').textContent='Fila '+selPosto.fila+' – Posto '+selPosto.numero;document.getElementById('r-prezzo').textContent=formatPrice(pb);document.getElementById('r-totale').textContent=formatPrice(tot);if(sconto>0){document.getElementById('r-sconto-row').style.display='flex';document.getElementById('r-sconto').textContent='-'+sconto+'%';}}
+async function applicaPromo(){const codice=document.getElementById('codice-promo').value.trim().toUpperCase(),m=document.getElementById('promo-msg');if(!codice)return;try{const r=await PromozioniAPI.valida({codice,partitaId:parseInt(partitaId)});sconto=parseFloat(r.scontoPercentuale);m.textContent='Promo applicata: -'+sconto+'%';m.style.color='var(--green)';m.style.display='block';updateRie();}catch(err){sconto=0;m.textContent=err.message;m.style.color='var(--red)';m.style.display='block';document.getElementById('r-sconto-row').style.display='none';updateRie();}}
+async function acquista(){if(!isLoggedIn()){window.location.href='/login.html?redirect='+encodeURIComponent(window.location.href);return;}if(!selSettore||!selPosto){showToast('Seleziona un settore e un posto','error');return;}const btn=document.getElementById('btn-acquista');btn.disabled=true;btn.textContent='Acquisto…';try{await BigliettiAPI.acquista({partitaId:parseInt(partitaId),postoId:selPosto.id,codicePromo:document.getElementById('codice-promo').value.trim()||null,metodoPagamento:document.getElementById('metodo-pagamento').value});showToast('Biglietto acquistato!','success');setTimeout(()=>window.location.href='/miei-biglietti.html',1500);}catch(err){showToast(err.message,'error');btn.disabled=false;btn.textContent='Acquista biglietto';await loadOccupati();if(selSettore)selectSettore(selSettore.id);}}
+if(window.innerWidth<768){const g=document.getElementById('main-grid');if(g)g.style.gridTemplateColumns='1fr';}
+</script></body></html>
