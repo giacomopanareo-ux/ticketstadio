@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="it">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TicketStadio — Partite</title>
+<link rel="stylesheet" href="css/style.css"></head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" href="/index.html">Ticket<span>Stadio</span></a>
+  <div class="navbar-links"><a href="/index.html" class="active">Partite</a><a href="/abbonamenti.html">Abbonamenti</a><a href="/miei-biglietti.html">I miei biglietti</a></div>
+  <div id="nav-admin"><a href="/admin/dashboard.html">Admin</a></div>
+  <div id="nav-user"><span id="nav-email" style="color:#9ca3af;font-size:.85rem"></span><button class="btn btn-outline btn-sm" style="color:#9ca3af;border-color:#374151" onclick="logout()">Esci</button></div>
+  <div id="nav-auth"><a href="/login.html" class="btn btn-outline btn-sm" style="color:#9ca3af;border-color:#374151">Accedi</a><a href="/register.html" class="btn btn-primary btn-sm">Registrati</a></div>
+</nav>
+<section class="hero"><div class="container"><h1 class="hero-title">Prossime <span>partite</span></h1><p class="hero-sub">Scegli la partita, seleziona il posto e acquista il tuo biglietto.</p></div></section>
+<main class="container" style="padding-top:1.75rem;padding-bottom:3rem">
+  <div class="filters">
+    <select id="filter-stato" onchange="applyFilters()"><option value="">Tutti gli stati</option><option value="PROGRAMMATA" selected>Programmate</option><option value="IN_CORSO">In corso</option><option value="CONCLUSA">Concluse</option></select>
+    <select id="filter-squadra" onchange="applyFilters()"><option value="">Tutte le squadre</option></select>
+    <span id="count-label" style="font-size:.85rem;color:rgba(255,255,255,.85);margin-left:auto;text-shadow:0 1px 2px rgba(0,0,0,.4);font-weight:600"></span>
+  </div>
+  <div id="partite-list" class="partite-list"><div class="loader-wrap"><div class="loader"></div></div></div>
+</main>
+<script src="js/api.js"></script><script src="js/auth.js"></script><script src="js/utils.js"></script>
+<script>
+let allPartite=[];
+document.addEventListener('DOMContentLoaded',async()=>{
+  updateNavbar();
+  try{allPartite=await PartiteAPI.getAll();populateSquadre(allPartite);applyFilters();}
+  catch(err){showError('partite-list','Impossibile caricare le partite: '+err.message);}
+});
+function populateSquadre(partite){
+  const s=new Set();partite.forEach(p=>{s.add(p.squadraCasaNome);s.add(p.squadraOspiteNome);});
+  const sel=document.getElementById('filter-squadra');
+  [...s].sort().forEach(sq=>{const o=document.createElement('option');o.value=sq;o.textContent=sq;sel.appendChild(o);});
+}
+function applyFilters(){
+  const stato=document.getElementById('filter-stato').value,squadra=document.getElementById('filter-squadra').value;
+  let f=allPartite.filter(p=>(!stato||p.stato===stato)&&(!squadra||p.squadraCasaNome===squadra||p.squadraOspiteNome===squadra));
+  f.sort((a,b)=>new Date(a.dataOra)-new Date(b.dataOra));
+  document.getElementById('count-label').textContent=f.length+' partite';
+  renderPartite(f);
+}
+function renderPartite(partite){
+  const c=document.getElementById('partite-list');
+  if(!partite.length){showEmpty('partite-list','Nessuna partita trovata.');return;}
+  c.innerHTML=partite.map(p=>`
+    <a class="partita-card" href="/partita.html?id=${p.id}">
+      <div class="partita-teams">
+        <div class="partita-vs">${p.squadraCasaNome}<span class="vs">vs</span>${p.squadraOspiteNome}</div>
+        <div class="partita-meta">${formatDate(p.dataOra)} — ore ${formatTime(p.dataOra)} · ${p.stadioNome}</div>
+      </div>
+      <div class="partita-right">${statoPartitaBadge(p.stato)}<div class="partita-price" style="margin-top:.5rem">da ${formatPrice(p.prezzoMinimo)}</div></div>
+    </a>`).join('');
+}
+</script></body></html>
