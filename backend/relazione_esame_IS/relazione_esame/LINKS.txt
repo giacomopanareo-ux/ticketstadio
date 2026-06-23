@@ -8,7 +8,7 @@ GITHUB (codice sorgente)
   → https://github.com/giacomopanareo/ticketstadio
 
 TRELLO (analisi requisiti e backlog)
-  → https://trello.com/b/XXXXXXXX/ticketstadio
+  → https://trello.com/b/9trJYi5m/ticketstadio-sprint-backlog
   Nota: ricordati di rendere PUBBLICA la board prima dell'esame
   (Menu → Visibilità → Pubblica)
 
@@ -27,13 +27,3 @@ DOCKERFILE (in questa directory)
   → Dockerfile (backend Spring Boot)
   → docker-compose.yml (backend + MySQL)
 
-══════════════════════════════════════════════════════════════
-  ISTRUZIONI PER SOSTITUIRE I PLACEHOLDER
-══════════════════════════════════════════════════════════════
-
-1. Crea la board Trello e copia l'URL dalla barra del browser
-2. Crea la lavagna Miro e copia l'URL della "Share link"
-3. Crea il prototipo Figma e copia il "Share prototype link"
-4. Sostituisci gli "XXXXXXXX" qui sopra con gli URL reali
-5. Verifica che TUTTI i link siano apribili da utenti non loggati
-   (apri ogni link in finestra in incognito per testare)
