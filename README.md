@@ -25,7 +25,7 @@ Il file `docker-compose.yml` in `backend/relazione_esame/` avvia MySQL + backend
 ## Credenziali demo
 | Ruolo | Email | Password |
 |-------|-------|----------|
-| Admin | admin@ticketstadio.it | Password123! |
+| Admin | admin@ticketstadio.it | provaData123 |
 | Tifoso | mario.rossi@email.it | Password123! |
 | Tifoso | giulia.bianchi@email.it | Password123! |
 

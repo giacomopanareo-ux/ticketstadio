@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="it.unife.ticketstadio.service.PromozioneIsValidaTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-06-23T09:17:33" hostname="PC-DI-GEK" time="0.007">
+  <properties/>
+  <testcase name="promo scade oggi → true" classname="it.unife.ticketstadio.service.PromozioneIsValidaTest" time="0.0"/>
+  <testcase name="promo per partita giusta → true" classname="it.unife.ticketstadio.service.PromozioneIsValidaTest" time="0.001"/>
+  <testcase name="promo futura → false" classname="it.unife.ticketstadio.service.PromozioneIsValidaTest" time="0.001"/>
+  <testcase name="promo per altra partita → false" classname="it.unife.ticketstadio.service.PromozioneIsValidaTest" time="0.001"/>
+  <testcase name="promo generica nel periodo → true" classname="it.unife.ticketstadio.service.PromozioneIsValidaTest" time="0.001"/>
+  <testcase name="promo scaduta → false" classname="it.unife.ticketstadio.service.PromozioneIsValidaTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

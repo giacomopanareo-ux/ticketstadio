@@ -9,16 +9,15 @@ GITHUB (codice sorgente)
 
 TRELLO (analisi requisiti e backlog)
   → https://trello.com/b/9trJYi5m/ticketstadio-sprint-backlog
-  Nota: ricordati di rendere PUBBLICA la board prima dell'esame
-  (Menu → Visibilità → Pubblica)
+ 
 
 MIRO (disegno funzionale)
-  → https://miro.com/app/board/XXXXXXXX/
-  Nota: condividi con permessi "chiunque con link può visualizzare"
+  → https://miro.com/app/board/uXjVHBI4ZE4=/?share_link_id=539111930143
+  
 
 FIGMA (prototipo UI)            [FACOLTATIVO]
   → https://www.figma.com/file/XXXXXXXX/TicketStadio
-  Nota: pubblica il prototipo con "Share" → "Anyone with the link"
+ 
 
 DEMO VIDEO (in questa directory)
   → demo.mp4 (registrazione OBS — flusso acquisto biglietto)
