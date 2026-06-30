@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="it.unife.ticketstadio.service.BigliettoServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-06-23T09:17:32" hostname="PC-DI-GEK" time="0.901">
+  <properties/>
+  <testcase name="posto occupato → PostoOccupatoException" classname="it.unife.ticketstadio.service.BigliettoServiceTest" time="0.834"/>
+  <testcase name="promo scaduta → IllegalArgumentException" classname="it.unife.ticketstadio.service.BigliettoServiceTest" time="0.016"/>
+  <testcase name="acquista senza promo → prezzo base" classname="it.unife.ticketstadio.service.BigliettoServiceTest" time="0.025"/>
+  <testcase name="partita annullata → IllegalStateException" classname="it.unife.ticketstadio.service.BigliettoServiceTest" time="0.006"/>
+  <testcase name="acquista con promo 10% → sconto applicato" classname="it.unife.ticketstadio.service.BigliettoServiceTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
