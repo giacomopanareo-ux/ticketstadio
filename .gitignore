@@ -1,0 +1,23 @@
+# Build / cache Gradle
+.gradle/
+**/build/
+**/bin/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# Log e file temporanei
+*.log
+
+# Config locale con credenziali (NON committare)
+backend/application-local.properties
+backend/src/main/resources/application-local.properties
+
+# OS
+.DS_Store
+Thumbs.db

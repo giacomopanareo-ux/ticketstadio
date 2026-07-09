@@ -7,9 +7,11 @@ Università degli Studi di Ferrara — A.A. 2025/2026
 ---
 
 ## Setup rapido
-1. `mysql -u root -p < docs/ticketstadio_demo.sql`
+1. Carica il database demo:
+   - con il client MySQL: `mysql -u root -p < docs/ticketstadio_demo.sql`
+   - con MySQL Shell (Windows): `mysqlsh --sql -u root -p -h localhost --file docs/ticketstadio_demo.sql`
 2. Modifica `backend/src/main/resources/application.properties` (password MySQL + jwt.secret)
-3. `cd backend && mvn spring-boot:run`
+3. `cd backend && ./gradlew bootRun`  (su Windows: `gradlew bootRun`)
 4. Apri `frontend/index.html` nel browser
 5. Swagger UI: http://localhost:8080/swagger-ui.html
 
@@ -91,7 +93,7 @@ Il file `docker-compose.yml` in `backend/relazione_esame/` avvia MySQL + backend
 
 ```bash
 cd backend
-mvn test
+./gradlew test
 ```
 
 23 test su 3 livelli:

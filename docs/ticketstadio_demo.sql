@@ -26,7 +26,7 @@ INSERT INTO utente(nome,cognome,email,password_hash,ruolo,data_registrazione)VAL
 ('Luca','Ferrari','luca.ferrari@email.it','$2a$10$dXa1Pe7BhCHsglNwSKYF7.vKxc5/Ho.wHeGkjuexypm1seGmeRCSi','TIFOSO',CURDATE()-INTERVAL 7 DAY);
 
 INSERT INTO stadio(nome,citta,capienza_totale)VALUES
-('Stadio Olimpico Grande Torino','Torino',28000),
+('Stadio Paolo Mazza','Ferrara',16134),
 ('Stadio Renato Dall''Ara','Bologna',38279),
 ('Allianz Stadium','Torino',45000),
 ('Stadio Giuseppe Meazza','Milano',75923),
@@ -43,7 +43,7 @@ CROSS JOIN stadio st;
 INSERT INTO posto(fila,numero,settore_id)SELECT f.fila,n.numero,s.id FROM(SELECT 'A' fila UNION SELECT 'B' UNION SELECT 'C' UNION SELECT 'D' UNION SELECT 'E')f,(SELECT 1 numero UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10)n,(SELECT id FROM settore)s;
 
 INSERT INTO squadra(nome,citta,home_stadium_id) VALUES
-('Torino','Torino',(SELECT id FROM stadio WHERE nome='Stadio Olimpico Grande Torino')),
+('SPAL','Ferrara',(SELECT id FROM stadio WHERE nome='Stadio Paolo Mazza')),
 ('Juventus','Torino',(SELECT id FROM stadio WHERE nome='Allianz Stadium')),
 ('AC Milan','Milano',(SELECT id FROM stadio WHERE nome='Stadio Giuseppe Meazza')),
 ('Inter','Milano',(SELECT id FROM stadio WHERE nome='Stadio Giuseppe Meazza')),
@@ -51,10 +51,11 @@ INSERT INTO squadra(nome,citta,home_stadium_id) VALUES
 ('Napoli','Napoli',(SELECT id FROM stadio WHERE nome='Stadio Diego Armando Maradona')),
 ('Atalanta','Bergamo',(SELECT id FROM stadio WHERE nome='Gewiss Stadium')),
 ('Fiorentina','Firenze',(SELECT id FROM stadio WHERE nome='Stadio Artemio Franchi')),
-('Lazio','Roma',(SELECT id FROM stadio WHERE nome='Stadio Olimpico'));
+('Lazio','Roma',(SELECT id FROM stadio WHERE nome='Stadio Olimpico')),
+('Bologna FC','Bologna',(SELECT id FROM stadio WHERE nome='Stadio Renato Dall''Ara'));
 
 INSERT INTO partita(squadra_casa_id,squadra_ospite_id,data_ora,stadio_id,stato)VALUES
-(1,8,DATE_ADD(NOW(),INTERVAL 7 DAY),1,'PROGRAMMATA'),
+(1,10,DATE_ADD(NOW(),INTERVAL 7 DAY),1,'PROGRAMMATA'),
 (1,2,DATE_ADD(NOW(),INTERVAL 14 DAY),1,'PROGRAMMATA'),
 (1,3,DATE_ADD(NOW(),INTERVAL 21 DAY),1,'PROGRAMMATA'),
 (1,4,DATE_ADD(NOW(),INTERVAL 28 DAY),1,'PROGRAMMATA'),
@@ -64,13 +65,13 @@ INSERT INTO partita(squadra_casa_id,squadra_ospite_id,data_ora,stadio_id,stato)V
 
 INSERT INTO promozione(codice,descrizione,sconto_percentuale,data_inizio,data_fine,partita_id)VALUES
 ('WELCOME10','Sconto benvenuto 10%',10.00,CURDATE(),DATE_ADD(CURDATE(),INTERVAL 365 DAY),NULL),
-('DERBY20','Sconto derby Torino vs Fiorentina 20%',20.00,CURDATE(),DATE_ADD(CURDATE(),INTERVAL 8 DAY),1),
+('DERBY20','Sconto derby SPAL vs Bologna 20%',20.00,CURDATE(),DATE_ADD(CURDATE(),INTERVAL 8 DAY),1),
 ('ESTATE15','Sconto estivo 15%',15.00,CURDATE(),DATE_ADD(CURDATE(),INTERVAL 90 DAY),NULL),
 ('OLD50','Promo scaduta - test',50.00,DATE_SUB(CURDATE(),INTERVAL 30 DAY),DATE_SUB(CURDATE(),INTERVAL 1 DAY),NULL);
 
 INSERT INTO abbonamento(utente_id,settore_id,stagione,data_inizio,data_fine,prezzo)VALUES(2,1,'2024/2025','2024-07-01','2025-06-30',300.00),(3,3,'2024/2025','2024-07-01','2025-06-30',500.00);
 
--- Biglietti demo (partita 1 = Torino vs Fiorentina, prossima)
+-- Biglietti demo (partita 1 = SPAL vs Bologna, prossima)
 INSERT INTO biglietto(partita_id,posto_id,utente_id,prezzo_pagato,data_acquisto,stato)VALUES(1,1,2,15.00,DATE_SUB(NOW(),INTERVAL 2 DAY),'VALIDO'),(1,2,3,12.00,DATE_SUB(NOW(),INTERVAL 1 DAY),'VALIDO'),(1,51,4,25.00,DATE_SUB(NOW(),INTERVAL 1 DAY),'VALIDO');
 INSERT INTO pagamento(biglietto_id,metodo,importo,data,stato)VALUES(1,'CARTA',15.00,DATE_SUB(NOW(),INTERVAL 2 DAY),'COMPLETATO'),(2,'PAYPAL',12.00,DATE_SUB(NOW(),INTERVAL 1 DAY),'COMPLETATO'),(3,'CARTA',25.00,DATE_SUB(NOW(),INTERVAL 1 DAY),'COMPLETATO');
 
