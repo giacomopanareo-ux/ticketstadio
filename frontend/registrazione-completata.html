@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>TicketStadio — Registrazione completata</title><link rel="stylesheet" href="css/style.css"><style>
+.auth-wrap{min-height:calc(100vh - 60px);display:flex;align-items:center;justify-content:center;padding:2rem 1rem}
+.success-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:2.5rem 2rem;width:100%;max-width:440px;text-align:center}
+.success-icon{width:76px;height:76px;margin:0 auto 1.5rem;border-radius:50%;background:var(--green-dim);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:2.6rem;font-weight:800;line-height:1;animation:pop .35s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes pop{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+.success-title{font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;font-weight:700;color:var(--dark);margin-bottom:.6rem}
+.success-msg{font-size:.92rem;color:var(--mid);line-height:1.55;margin-bottom:1.75rem}
+</style></head><body>
+<nav class="navbar"><a class="navbar-brand" href="/index.html">Ticket<span>Stadio</span></a><div id="nav-admin" style="display:none"></div><div id="nav-user" style="display:none"></div><div id="nav-auth"><a href="/index.html" class="btn btn-outline btn-sm" style="color:#9ca3af;border-color:#374151">Home</a></div></nav>
+<div class="auth-wrap"><div class="success-card">
+<div class="success-icon">&check;</div>
+<h1 class="success-title">Registrazione completata!</h1>
+<p class="success-msg">Il tuo account è stato creato con successo.<br>Ora puoi accedere con le tue credenziali e iniziare ad acquistare i biglietti.</p>
+<a href="/login.html" id="login-link" class="btn btn-primary btn-full">Vai al login</a>
+</div></div>
+<script>
+const email=new URLSearchParams(location.search).get('email');
+if(email)document.getElementById('login-link').href='/login.html?registered=1&email='+encodeURIComponent(email);
+</script></body></html>

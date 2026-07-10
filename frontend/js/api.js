@@ -5,7 +5,7 @@ async function apiFetch(endpoint,options={}){
     const response=await fetch(`${API_BASE}${endpoint}`,{...options,headers});
     if(response.status===401&&!endpoint.startsWith('/auth/')){localStorage.removeItem('jwt_token');window.location.href='/login.html';return;}
     const parseBody=async()=>{const t=await response.text();if(!t)return null;try{return JSON.parse(t);}catch{return t;}};
-    if(!response.ok){const err=await parseBody();throw new Error((err&&err.error)||(typeof err==='string'?err:`Errore HTTP ${response.status}`));}
+    if(!response.ok){const err=await parseBody();let msg=err&&err.error?err.error:(typeof err==='string'&&err?err:(err&&typeof err==='object'?Object.values(err)[0]:null));throw new Error(msg||`Errore HTTP ${response.status}`);}
     if(response.status===204)return null;
     return parseBody();
 }
