@@ -43,7 +43,7 @@ Il file `docker-compose.yml` in `backend/relazione_esame/` avvia MySQL + backend
 
 ## Stack
 - **Backend:** Spring Boot 3.2 + Java 17 + JWT
-- **Database:** MySQL 8.0 (PostgreSQL per +1 punto BD)
+- **Database:** MySQL 8.0 (PostgreSQL)
 - **Frontend:** HTML5 + CSS3 + JavaScript vanilla
 - **Test:** JUnit 5 + Mockito + H2
 
@@ -107,7 +107,7 @@ cd backend
 
 | Esame | Posizione |
 |-------|-----------|
-| Ingegneria del Software | `backend/relazione_esame/` |
+| Ingegneria del Software | `backend/relazione_esame_IS/` |
 | Basi di Dati | `docs/` |
 | Ingegneria dei Sistemi Web | `docs/` |
 

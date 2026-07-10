@@ -3,7 +3,7 @@ async function apiFetch(endpoint,options={}){
     const token=localStorage.getItem('jwt_token');
     const headers={'Content-Type':'application/json',...(token?{'Authorization':`Bearer ${token}`}:{}),...(options.headers||{})};
     const response=await fetch(`${API_BASE}${endpoint}`,{...options,headers});
-    if(response.status===401){localStorage.removeItem('jwt_token');window.location.href='/login.html';return;}
+    if(response.status===401&&!endpoint.startsWith('/auth/')){localStorage.removeItem('jwt_token');window.location.href='/login.html';return;}
     if(!response.ok){const err=await response.json().catch(()=>({error:'Errore sconosciuto'}));throw new Error(err.error||`Errore HTTP ${response.status}`);}
     if(response.status===204)return null;
     return response.json();

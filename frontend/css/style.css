@@ -158,4 +158,14 @@ tbody tr td{transition:background-color .18s ease,box-shadow .18s ease}
 .modal{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:2rem;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
 .modal-title{font-size:1.1rem;font-weight:700;margin-bottom:1.25rem}
 .modal-footer{display:flex;gap:.75rem;justify-content:flex-end;margin-top:1.5rem}
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;transition:opacity .18s}
+.confirm-overlay.open{opacity:1}
+.confirm-box{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-md);width:100%;max-width:400px;padding:1.75rem;text-align:center;transform:scale(.94);transition:transform .18s}
+.confirm-overlay.open .confirm-box{transform:scale(1)}
+.confirm-icon{width:52px;height:52px;margin:0 auto 1rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:800;font-family:'Barlow Condensed',sans-serif;background:var(--green-dim);color:var(--green)}
+.confirm-icon.danger{background:#fee2e2;color:var(--red)}
+.confirm-title{font-size:1.15rem;font-weight:700;margin-bottom:.5rem;color:var(--dark)}
+.confirm-msg{font-size:.9rem;color:var(--mid);line-height:1.5;margin-bottom:1.5rem}
+.confirm-actions{display:flex;gap:.75rem;justify-content:center}
+.confirm-actions .btn{min-width:112px;justify-content:center}
 @media(max-width:640px){.navbar{padding:0 1rem;gap:1rem}.navbar-links{display:none}.partita-card{flex-direction:column;align-items:flex-start;gap:.75rem}.partita-card::after{display:none}.partita-card:hover{padding-right:1.5rem}.hero-title{font-size:2rem}.page-header{padding:1.5rem 1.25rem}.page-header .page-title{font-size:1.8rem}}
