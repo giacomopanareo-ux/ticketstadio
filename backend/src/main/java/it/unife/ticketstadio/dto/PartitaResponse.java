@@ -1,15 +1,28 @@
 package it.unife.ticketstadio.dto;
+
 import it.unife.ticketstadio.entity.Partita;
 import lombok.Data;
+
 import java.time.LocalDateTime;
-@Data public class PartitaResponse {
+
+/**
+ * DTO in uscita con i dati di una partita, incluso il prezzo minimo del biglietto.
+ */
+@Data
+public class PartitaResponse {
+
     private Long id;
-    private Long squadraCasaId,squadraOspiteId,stadioId;
-    private String squadraCasaNome,squadraOspiteNome,stadioNome,stato;
+    private Long squadraCasaId, squadraOspiteId, stadioId;
+    private String squadraCasaNome, squadraOspiteNome, stadioNome, stato;
     private LocalDateTime dataOra;
     private Double prezzoMinimo;
-    public static PartitaResponse from(Partita p,Double pm){
-        PartitaResponse r=new PartitaResponse();
+
+    /**
+     * Crea il DTO a partire dall'entità Partita.
+     * @param pm prezzo minimo calcolato a parte dal service (prezzo "a partire da...").
+     */
+    public static PartitaResponse from(Partita p, Double pm) {
+        PartitaResponse r = new PartitaResponse();
         r.setId(p.getId());
         r.setSquadraCasaId(p.getSquadraCasa().getId());
         r.setSquadraCasaNome(p.getSquadraCasa().getNome());

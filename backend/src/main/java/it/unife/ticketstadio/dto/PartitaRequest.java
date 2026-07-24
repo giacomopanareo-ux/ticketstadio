@@ -1,10 +1,25 @@
 package it.unife.ticketstadio.dto;
+
 import jakarta.validation.constraints.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
-@Data public class PartitaRequest {
-    @NotNull private Long squadraCasaId;
-    @NotNull private Long squadraOspiteId;
-    @NotNull private LocalDateTime dataOra;
-    @NotBlank private String stato;
+
+/**
+ * DTO in ingresso per creare o aggiornare una partita.
+ */
+@Data
+public class PartitaRequest {
+
+    @NotNull
+    private Long squadraCasaId;
+
+    @NotNull
+    private Long squadraOspiteId;
+
+    @NotNull
+    private LocalDateTime dataOra;
+
+    @NotBlank
+    private String stato; // es. "PROGRAMMATA", "ANNULLATA"...
 }

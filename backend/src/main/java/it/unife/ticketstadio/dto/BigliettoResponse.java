@@ -1,19 +1,33 @@
 package it.unife.ticketstadio.dto;
+
 import it.unife.ticketstadio.entity.Biglietto;
 import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-@Data public class BigliettoResponse {
+
+/**
+ * DTO in uscita con i dati di un biglietto "appiattiti" (partita, posto, prezzo...),
+ * pronti da mostrare al frontend senza dover navigare le relazioni tra entità.
+ */
+@Data
+public class BigliettoResponse {
+
     private Long id;
     private Long partitaId;
-    private String squadraCasaNome,squadraOspiteNome;
+    private String squadraCasaNome, squadraOspiteNome;
     private LocalDateTime dataPartita;
-    private String stadioNome,settoreNome,filaP,stato;
+    private String stadioNome, settoreNome, filaP, stato;
     private Integer numeroPosto;
     private BigDecimal prezzoPagato;
     private LocalDateTime dataAcquisto;
-    public static BigliettoResponse from(Biglietto b){
-        BigliettoResponse r=new BigliettoResponse();
+
+    /**
+     * Crea il DTO a partire dall'entità Biglietto, estraendo i dati dalle entità collegate
+     * (partita, squadre, stadio, posto, settore).
+     */
+    public static BigliettoResponse from(Biglietto b) {
+        BigliettoResponse r = new BigliettoResponse();
         r.setId(b.getId());
         r.setPartitaId(b.getPartita().getId());
         r.setSquadraCasaNome(b.getPartita().getSquadraCasa().getNome());
